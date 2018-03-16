@@ -18,7 +18,7 @@ class CommentForm extends Component {
     }
     onCommentPost = (e) => {
         console.log('onCommentPost state: ', this.state);
-        this.props.formSubmitted(this.state);
+        //this.props.formSubmitted(this.state);
     }
     render() {
         return (
