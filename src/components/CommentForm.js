@@ -3,22 +3,21 @@ import styles from '../style';
 
 class CommentForm extends Component {
     state = {
-        authorName: '',
-        textValue: ''
+        author: '',
+        text: ''
     };
     onAuthorNameChange = (e) => {
         this.setState({
-            authorName: e.target.value
+            author: e.target.value
         });
     }
     onTextValueChange = (e) => {
         this.setState({
-            textValue: e.target.value
+            text: e.target.value
         });
     }
     onCommentPost = (e) => {
-        console.log('onCommentPost state: ', this.state);
-        //this.props.formSubmitted(this.state);
+        this.props.formSubmitted(this.state);
     }
     render() {
         return (
@@ -26,13 +25,13 @@ class CommentForm extends Component {
                 <input
                 type="text" 
                 placeholder="Enter Author Name" 
-                value={this.state.authorName} 
+                value={this.state.author} 
                 onChange={this.onAuthorNameChange}
                 style={styles.commentFormAuthor}/>
                 <input
                 type="text" 
                 placeholder="Enter Comment Text" 
-                value={this.state.textValue} 
+                value={this.state.text} 
                 onChange={this.onTextValueChange}
                 style={styles.commentFormText}/>
                 <input type="submit" style={styles.commentFormPost} value="Post"/>

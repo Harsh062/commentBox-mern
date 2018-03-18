@@ -5,7 +5,7 @@ import Comment from './Comment';
 
 const CommentList = (props) => {
     let commentsArr = props.data.map((comment) => {
-        return <Comment author={comment.author} text={comment.text} key={comment.id} id={comment.id}/>
+        return <Comment author={comment.author} text={comment.text} key={comment['_id']}/>
     })
     return (
         <div style={styles.commentList}>

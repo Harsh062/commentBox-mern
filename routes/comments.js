@@ -3,30 +3,49 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    console.log('GET COMMENTS called');
-    Comment.find().then((err, comments) => {
-        if (err) {
-            return res.status(500).send('Error while fetching comments');
-        }
-        if (!comments) {
+    Comment.find().then((comments) => {
+        if (!comments.length) {
             return res.status(404).send('No comments found');
         }
-        
+        res.send(comments);
+    }, (err) => {
+        res.send(err);
     })
 })
 
 router.post('/', (req, res) => {
-    console.log('POST COMMENTS called');
     let comment = new Comment ({
         author: req.body.author,
         text: req.body.text
     })
+    console.log('comment to be saved: ', comment);
+    comment.save().then((commentData) => {
+        res.status(200).send(commentData);
+    }, (err) => {
+        console.log('Error while saving comment: ', err);
+        res.status(500).send(err); 
+    })
+})
 
-    comment.save().then((err, commentData) => {
-        if (err) {
-           return res.status(500).send('Error while saving comment'); 
+router.patch('/:id', (req, res) => {
+    const id = req.params.id;
+    const updatedData = req.body;
+    Comment.findByIdAndUpdate(id, { $set: { 'text' : updatedData.text }}).then((response) => {
+        res.send(response);
+    }, (err) => {
+        res.status(400).send(err);
+    })
+})
+
+router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+    Comment.findByIdAndRemove(id).then((response) => {
+        if (!response) {
+            return res.status(404).send('Comment not found');
         }
-        return res.status(200).send('Comment Saved Successfully');
+        res.send(response);
+    }, (err) => {
+        res.status(400).send(err);
     })
 })
 

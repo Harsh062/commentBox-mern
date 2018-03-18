@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
-
+const Promise = require('bluebird');
+mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost:27017/CommentBox_Mern');
 
 const CommentSchema = mongoose.Schema({
     author: {
         type: String,
-        require: true
+        required: true
     },
     text: {
         type: String,
-        require: true
+        required: true
     }
 })
 

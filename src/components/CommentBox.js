@@ -2,19 +2,44 @@ import React, { Component } from 'react';
 import styles from '../style';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
+import axios from 'axios';
+const url = 'http://localhost:3001/comments';
 
 class CommentBox extends Component {
-    formSubmiitedHandler = (formData) => {
+    state = {
+        commentData: []
+    }
+    componentDidMount(){
+        this.getData();
+    }
+
+    getData() {
+        axios.get(url).then(response => {
+            this.setState({
+                commentData: response.data
+            })
+          }).catch( error => {
+            console.log(error);
+          }); 
+    }
+
+    formSubmittedHandler = (formData) => {
         console.log('formData: ', formData);
+        axios.post(url, formData)
+          .then(response => {
+            this.getData();
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
     render() {
-        const dataAsProps = [{id: 1, text: "First Comment", author: "Harsh Gandhi"},
-                             {id: 2, text: "Second Comment", author: "Harshvardhan Gandhi"},
-                             {id: 3, text: "Third Comment", author: "Harshu Gandhi"}];
+        
         return (
             <div style={styles.commentBox}>
-                <CommentList data={dataAsProps}/>
-                <CommentForm formSubmitted={this.formSubmiitedHandler}/>
+                <CommentList data={this.state.commentData}/>
+                <CommentForm formSubmitted={this.formSubmittedHandler}/>
             </div>
         )
     }
