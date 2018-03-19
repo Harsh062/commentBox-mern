@@ -34,11 +34,18 @@ class CommentBox extends Component {
             console.log(error);
           });
     }
+
+    updateCommentHandler = (id, comment) => {
+        console.log(`ID: ${id} , comment: ${comment}`);
+    }
+
     render() {
         
         return (
             <div style={styles.commentBox}>
-                <CommentList data={this.state.commentData}/>
+                <CommentList 
+                data={this.state.commentData}
+                onCommentUpdate={this.updateCommentHandler}/>
                 <CommentForm formSubmitted={this.formSubmittedHandler}/>
             </div>
         )

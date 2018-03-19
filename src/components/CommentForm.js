@@ -17,7 +17,21 @@ class CommentForm extends Component {
         });
     }
     onCommentPost = (e) => {
-        this.props.formSubmitted(this.state);
+        e.preventDefault();
+        let author = this.state.author.trim();
+        let text = this.state.text.trim();
+        if (!author || !text) {
+            console.log('Something missing');
+            return;
+        }
+        this.props.formSubmitted({
+            author: author,
+            text: text
+        });
+        this.setState({
+            author: '',
+            text: ''
+        })
     }
     render() {
         return (
